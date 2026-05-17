@@ -24,6 +24,55 @@
             align-items: center;
         }
 
+        /* باقات البالونات الثابتة في الأعلى */
+        .balloon-bundle {
+            position: absolute;
+            top: 10px;
+            width: 80px;
+            height: 120px;
+            z-index: 4;
+            animation: floatingBundle 4s ease-in-out infinite alternate;
+        }
+        
+        .bundle-left { left: 15px; transform-origin: bottom center; }
+        .bundle-right { right: 15px; transform-origin: bottom center; }
+
+        /* البالونات داخل الباقة */
+        .b-balloon {
+            position: absolute;
+            width: 30px;
+            height: 38px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+        }
+        .b1 { background: #ff007f; left: 10px; top: 0; z-index: 3; }
+        .b2 { background: #00f0ff; left: 35px; top: 10px; z-index: 2; }
+        .b3 { background: #ffaa00; left: 20px; top: 25px; z-index: 4; }
+
+        /* الخيوط البرمجية الملتوية */
+        .b-strings {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+        }
+        .string {
+            position: absolute;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.4);
+            bottom: 0;
+            transform-origin: bottom center;
+        }
+        /* توجيه الخيوط من كل بالونة لنقطة الالتقاء بالأسفل */
+        .s1 { height: 80px; left: 25px; transform: rotate(15deg); }
+        .s2 { height: 75px; left: 48px; transform: rotate(-15deg); }
+        .s3 { height: 60px; left: 35px; transform: rotate(0deg); }
+
+        @keyframes floatingBundle {
+            0% { transform: translateY(0) rotate(-3deg); }
+            100% { transform: translateY(-8px) rotate(3deg); }
+        }
+
         /* شاشة الظرف الأولى */
         .envelope-wrapper {
             display: flex;
@@ -34,23 +83,31 @@
             z-index: 10;
         }
 
+        /* حركة هندسية متناسقة ونبض للظرف */
         .envelope {
             width: 150px;
             height: 100px;
-            background: #ffb6c1; /* وردي */
+            background: #ffb6c1; 
             position: relative;
             border-radius: 0 0 10px 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.2s;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: envelopePulse 2.5s ease-in-out infinite;
         }
         
-        .envelope:active { transform: scale(0.95); }
+        .envelope:active { transform: scale(0.92) rotate(2deg); }
 
-        /* غطاء الظرف */
+        @keyframes envelopePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 30px rgba(255, 182, 193, 0.4); }
+            100% { transform: scale(1); }
+        }
+
+        /* غطاء الظرف الهندي */
         .envelope::before {
             content: '';
             position: absolute;
@@ -98,15 +155,8 @@
             border-radius: 50%;
         }
 
-        .css-heart::before {
-            top: -10px;
-            left: 0;
-        }
-
-        .css-heart::after {
-            top: 0;
-            left: 10px;
-        }
+        .css-heart::before { top: -10px; left: 0; }
+        .css-heart::after { top: 0; left: 10px; }
 
         @keyframes cssGlow {
             from { 
@@ -120,13 +170,14 @@
         }
 
         .click-hint {
-            margin-top: 20px;
+            margin-top: 25px;
             color: white;
-            background: rgba(0,0,0,0.5);
-            padding: 5px 15px;
+            background: rgba(0,0,0,0.6);
+            padding: 6px 18px;
             border-radius: 20px;
             font-size: 14px;
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            letter-spacing: 0.5px;
         }
 
         /* الشاشة الثانية (الإطار والمحتوى) */
@@ -143,7 +194,7 @@
 
         /* الإطار المتوهج بألوان عديدة متحركة */
         .neon-frame {
-            background: rgba(11, 14, 17, 0.85);
+            background: rgba(11, 14, 17, 0.88);
             border-radius: 20px;
             padding: 25px;
             text-align: center;
@@ -175,7 +226,7 @@
             text-align: justify;
         }
 
-        /* البالونات والقصاصات المتناثرة */
+        /* البالونات المتطايرة والقصاصات */
         .balloon {
             position: absolute;
             width: 40px;
@@ -214,6 +265,28 @@
 
     <audio id="bg-music" src="e.mp3" loop></audio>
 
+    <div class="balloon-bundle bundle-left" id="b-left">
+        <div class="b-balloon b1"></div>
+        <div class="b-balloon b2"></div>
+        <div class="b-balloon b3"></div>
+        <div class="b-strings">
+            <div class="string s1"></div>
+            <div class="string s2"></div>
+            <div class="string s3"></div>
+        </div>
+    </div>
+
+    <div class="balloon-bundle bundle-right" id="b-right">
+        <div class="b-balloon b1"></div>
+        <div class="b-balloon b2"></div>
+        <div class="b-balloon b3"></div>
+        <div class="b-strings">
+            <div class="string s1"></div>
+            <div class="string s2"></div>
+            <div class="string s3"></div>
+        </div>
+    </div>
+
     <div class="envelope-wrapper" id="stage1">
         <div class="envelope" onclick="handleEnvelopeClick()">
             <div class="heart-circle">
@@ -225,9 +298,9 @@
 
     <div class="content-wrapper" id="stage2">
         <div class="neon-frame">
-            <h1>Happy Birthday 'Leo'..</h1>
+            <h1>..'Happy Birthday' Leo</h1>
             <p>في يوم ميلادك، أحب أن أبعث لك أطيب التهاني وأصدق الأمنيات، رغم أن معرفتنا ليست عميقة، إلا أن المناسبات الجميلة تُشارك لتزيدها بهجة. <br><br>
-            أتمنى لك عامًا جديدًا مليئًا بالنجاح السعادة، وأن تتحقق فيه كل طموحاتك وأحلامك، وأن تحمل لك الأيام القادمة لحظات جميلة تستحق أن تُعاش بكل تفاصيلها.<br><br>
+            أتمنى لك عامًا جديدًا مليئًا بالنجاح والسعادة، وأن تتحقق فيه كل طموحاتك وأحلامك، وأن تحمل لك الأيام القادمة لحظات جميلة تستحق أن تُعاش بكل تفاصيلها.<br><br>
             عيد ميلاد سعيد، وأرجو أن يكون هذا العام بداية لمرحلة مليئة بالخير والإنجازات، وأن تجد فيه ما يسعد قلبك ويُرضي روحك.</p>
         </div>
     </div>
@@ -251,11 +324,16 @@
             const music = document.getElementById('bg-music');
             music.play().catch(err => console.log("تحتاج لتفاعل لتشغيل الصوت: ", err));
 
+            // إخفاء الظرف وباقات البالونات العلوية عند الفتح للانتقال للمرحلة الثانية
             document.getElementById('stage1').style.opacity = '0';
             document.getElementById('stage1').style.transform = 'scale(0.5)';
+            document.getElementById('b-left').style.opacity = '0';
+            document.getElementById('b-right').style.opacity = '0';
             
             setTimeout(() => {
                 document.getElementById('stage1').style.display = 'none';
+                document.getElementById('b-left').style.display = 'none';
+                document.getElementById('b-right').style.display = 'none';
                 
                 const stage2 = document.getElementById('stage2');
                 stage2.style.opacity = '1';
