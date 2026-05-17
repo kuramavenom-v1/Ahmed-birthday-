@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Leo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-image: url('a.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* شاشة الظرف الأولى */
+        .envelope-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.8s ease;
+            z-index: 10;
+        }
+
+        .envelope {
+            width: 150px;
+            height: 100px;
+            background: #ffb6c1; /* وردي */
+            position: relative;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        
+        .envelope:active { transform: scale(0.95); }
+
+        /* غطاء الظرف */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-left: 75px solid transparent;
+            border-right: 75px solid transparent;
+            border-top: 60px solid #ffa4b2;
+            transform-origin: top;
+            transition: transform 0.4s ease;
+            z-index: 2;
+        }
+
+        /* الدائرة والقلب المتوهج */
+        .heart-circle {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+
+        .heart {
+            font-size: 24px;
+            color: #ff0000;
+            animation: glow 1.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; transform: scale(0.9); }
+            to { text-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000; transform: scale(1.1); }
+        }
+
+        .click-hint {
+            margin-top: 15px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* الشاشة الثانية (الإطار والمحتوى) */
+        .content-wrapper {
+            position: absolute;
+            width: 85%;
+            max-width: 360px;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 5;
+        }
+
+        /* الإطار المتوهج بألوان عديدة متحركة */
+        .neon-frame {
+            background: rgba(11, 14, 17, 0.85);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            border: 4px solid transparent;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            animation: borderGlow 6s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { border-color: #ff007f; box-shadow: 0 0 15px #ff007f; }
+            25% { border-color: #00f0ff; box-shadow: 0 0 15px #00f0ff; }
+            50% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+            75% { border-color: #ffaa00; box-shadow: 0 0 15px #ffaa00; }
+            100% { border-color: #ff007f; box-shadow: 0 0 15px #ff007f; }
+        }
+
+        .neon-frame h1 {
+            color: #00f0ff;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px #00f0ff;
+        }
+
+        .neon-frame p {
+            color: #ffffff;
+            font-size: 15px;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        /* البالونات والقصاصات المتناثرة */
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            bottom: -70px;
+            z-index: 2;
+            animation: floatUp 7s linear infinite;
+        }
+        .balloon::after {
+            content: ""; position: absolute; bottom: -8px; left: 18px;
+            border-left: 2px solid transparent; border-right: 2px solid transparent; border-top: 8px solid;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            top: -10px;
+            z-index: 1;
+            animation: fall 4s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" src="e.mp3" loop></audio>
+
+    <div class="envelope-wrapper" id="stage1">
+        <div class="envelope" onclick="handleEnvelopeClick()">
+            <div class="heart-circle">
+                <span class="heart">❤️</span>
+            </div>
+        </div>
+        <div class="click-hint" id="hint-text">اضغط على الظرف 3 مرات لفتحه</div>
+    </div>
+
+    <div class="content-wrapper" id="stage2">
+        <div class="neon-frame">
+            <h1>Happy Birthday 'Leo'..</h1>
+            <p>في يوم ميلادك، أحب أن أبعث لك أطيب التهاني وأصدق الأمنيات، رغم أن معرفتنا ليست عميقة، إلا أن المناسبات الجميلة تُشارك لتزيدها بهجة. <br><br>
+            أتمنى لك عامًا جديدًا مليئًا بالنجاح والسعادة، وأن تتحقق فيه كل طموحاتك وأحلامك، وأن تحمل لك الأيام القادمة لحظات جميلة تستحق أن تُعاش بكل تفاصيلها.<br><br>
+            عيد ميلاد سعيد، وأرجو أن يكون هذا العام بداية لمرحلة مليئة بالخير والإنجازات، وأن تجد فيه ما يسعد قلبك ويُرضي روحك.</p>
+        </div>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        const targetClicks = 3;
+
+        function handleEnvelopeClick() {
+            clickCount++;
+            const hintText = document.getElementById('hint-text');
+            
+            if (clickCount < targetClicks) {
+                hintText.innerText = `متبقي ${targetClicks - clickCount} ضغطات`;
+            } else {
+                openEnvelope();
+            }
+        }
+
+        function openEnvelope() {
+            // تشغيل الموسيقى
+            const music = document.getElementById('bg-music');
+            music.play().catch(err => console.log("تحتاج لتفاعل لتشغيل الصوت: ", err));
+
+            // إخفاء الظرف وإظهار المحتوى بالتأثيرات
+            document.getElementById('stage1').style.opacity = '0';
+            document.getElementById('stage1').style.transform = 'scale(0.5)';
+            
+            setTimeout(() => {
+                document.getElementById('stage1').style.display = 'none';
+                
+                const stage2 = document.getElementById('stage2');
+                stage2.style.opacity = '1';
+                stage2.style.transform = 'scale(1)';
+                stage2.style.pointerEvents = 'auto';
+                
+                // بدء المؤثرات الاحتفالية
+                startCelebration();
+            }, 500);
+        }
+
+        function startCelebration() {
+            const colors = ['#ff007f', '#00f0ff', '#ff00ff', '#ffaa00', '#00ff00', '#ff0000'];
+            
+            // إنتاج البالونات الطائرة بشكل مستمر
+            setInterval(() => {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.background = randomColor;
+                balloon.style.color = randomColor; // للذيل بالأسفل
+                balloon.style.left = Math.random() * 90 + 'vw';
+                balloon.style.animationDuration = (Math.random() * 3 + 5) + 's'; // بين 5 إلى 8 ثواني
+                document.body.appendChild(balloon);
+                
+                setTimeout(() => balloon.remove(), 8000);
+            }, 800);
+
+            // إنتاج القصاصات المتناثرة المتساقطة (Confetti)
+            setInterval(() => {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 5000);
+            }, 150);
+        }
+    </script>
+</body>
+</html>
